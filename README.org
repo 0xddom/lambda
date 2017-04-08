@@ -1,0 +1,64 @@
+* λ reducer
+
+A simple λ reducer pulled out in a all-nighter of Haskell. Takes a λ expression and reduces it to it's normal form.
+
+** TODO
+
+- Fix the parser to need less parenthesis
+- A mechanism to add named functions
+- An standard library
+- Better usability
+
+** Compile
+
+Install the Haskell toolchain, cabal and run:
+
+#+BEGIN_SRC
+
+cabal install parsec
+cabal build
+
+#+END_SRC
+
+** Examples
+
+These are some examples of how the program reduces the expressions
+
+*** (\x.a)10
+
+#+BEGIN_SRC
+
+(λx.a)λf.λx.ffffffffffx -- β -->
+a
+
+#+END_SRC
+
+*** \x.(m)x
+
+#+BEGIN_SRC
+
+λx.mx -- η -->
+m
+
+#+END_SRC
+
+*** (\yx.(m)x)z
+
+#+BEGIN_SRC
+
+(λy.λx.mx)z -- β -->
+λx.mx -- η -->
+m
+
+#+END_SRC
+
+*** (\f.(\x.(f)((x)x))(\x.(f)((x)x)))g
+
+#+BEGIN_SRC
+
+(λf.(λx.fxx)λx.fxx)g -- β -->
+(λx.gxx)λx.gxx -- β -->
+g(λx.gxx)λx.gxx
+
+#+END_SRC
+
