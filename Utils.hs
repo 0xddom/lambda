@@ -1,6 +1,7 @@
 module Utils (
   removeDups,
-  newNameForVar
+  newNameForVar,
+  joinBySpace
 ) where
 
 import Data.Char
@@ -24,3 +25,6 @@ nextValue xs
 
 newNameForVar :: String -> [String] -> String
 newNameForVar _ fv = nextValue $ foldr max "" fv 
+
+joinBySpace :: String -> String -> String
+joinBySpace a b = a ++ " " ++ b

@@ -2,12 +2,11 @@
 
 A simple λ reducer pulled out in a all-nighter of Haskell. Takes a λ expression and reduces it to it's normal form.
 
-** TODO
+** TO DO
 
 - Fix the parser to need less parenthesis
 - A mechanism to add named functions
 - An standard library
-- Better usability
 
 ** Compile
 
@@ -15,47 +14,40 @@ Install the Haskell toolchain, cabal and run:
 
 #+BEGIN_SRC
 
-cabal install parsec
+cabal install parsec optparse-applicative
 cabal build
 
 #+END_SRC
+
+The executable is in =dist/build/lambda/lambda=
 
 ** Examples
 
 These are some examples of how the program reduces the expressions
 
-*** (\x.a)10
-
 #+BEGIN_SRC
-
+$ lambda -e '(\x.a)10'
 (λx.a)λf.λx.ffffffffffx -- β -->
 a
-
 #+END_SRC
 
-*** \x.(m)x
-
 #+BEGIN_SRC
-
+$ lambda -e '\x.(m)x'
 λx.mx -- η -->
 m
 
 #+END_SRC
 
-*** (\yx.(m)x)z
-
 #+BEGIN_SRC
-
+echo '(\yx.(m)x)z' | lambda
 (λy.λx.mx)z -- β -->
 λx.mx -- η -->
 m
 
 #+END_SRC
 
-*** (\f.(\x.(f)((x)x))(\x.(f)((x)x)))g
-
 #+BEGIN_SRC
-
+$ lambda -f test.lambda
 (λf.(λx.fxx)λx.fxx)g -- β -->
 (λx.gxx)λx.gxx -- β -->
 g(λx.gxx)λx.gxx

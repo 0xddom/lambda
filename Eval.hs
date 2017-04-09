@@ -7,33 +7,33 @@ import Ast
 import Lambda
 import Text.Parsec
 
-data Action = Action LambdaTerm Reduction
+data Action = Action Int LambdaTerm Reduction
 
 instance Show Action where
-  show (Action l r) = show l ++ " " ++ show r ++ "\n"
+  show (Action n l r) = show n ++ ": " ++ show l ++ " " ++ show r ++ "\n"
 
 tupleToAction :: (LambdaTerm, Reduction) -> Action
-tupleToAction (l,r) = Action l r
+tupleToAction (l,r) = Action 0 l r
 
 lambdaTermFromAction :: Action -> LambdaTerm
-lambdaTermFromAction (Action l _) = l
+lambdaTermFromAction (Action _ l _) = l
 
 reductionFromAction :: Action -> Reduction
-reductionFromAction (Action _ r) = r
+reductionFromAction (Action _ _ r) = r
 
-evalLambdaTerm' :: LambdaTerm -> [Action]
-evalLambdaTerm' m = let result = (tupleToAction . reduceLambdaTerm $ m) in
-      (Action m (reductionFromAction result)):
+evalLambdaTerm' :: Int -> LambdaTerm -> [Action]
+evalLambdaTerm' step m = let result = (tupleToAction . reduceLambdaTerm $ m) in
+      (Action step m (reductionFromAction result)):
       -- Break if the result is equal after the reduction and is not an Alpha reduction
         if m == (lambdaTermFromAction result) && reductionFromAction result /= Alpha
-        then [Action m None]
-        else (evalLambdaTerm $ lambdaTermFromAction result)
+        then [Action (step + 1) m None]
+        else (evalLambdaTerm (step + 1) $ lambdaTermFromAction result)
 
-evalLambdaTerm :: LambdaTerm -> [Action]
-evalLambdaTerm m
-  | canEtaReduce m = evalLambdaTerm' m
-  | normalFormP m = [Action m None]
-  | otherwise = evalLambdaTerm' m
+evalLambdaTerm :: Int -> LambdaTerm -> [Action]
+evalLambdaTerm step m
+  | canEtaReduce m = evalLambdaTerm' step m
+  | normalFormP m = [Action step m None]
+  | otherwise = evalLambdaTerm' step m
 
 joinActions :: [Action] -> IO String
 joinActions a = 
@@ -45,7 +45,7 @@ evalTree (Left parseError) =
   
 evalTree (Right tree) = 
   convertTree tree >>=
-  (joinActions . evalLambdaTerm)
+  (joinActions . (evalLambdaTerm 1))
   
 convertTree :: ParseTree -> IO LambdaTerm
 convertTree tree = 

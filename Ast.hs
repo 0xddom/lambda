@@ -34,7 +34,7 @@ instance Show Reduction where
 instance Show LambdaTerm where
   show (FreeVariable x) = x
   show (Abstraction x m) = "λ" ++ x ++ "." ++ show m
-  show (Application (FreeVariable x) n) = x ++ show n
+  show (Application (FreeVariable x) n) = x ++ " " ++ show n
   show (Application m n) = "(" ++ show m ++ ")" ++ show n
 
 instance Eq LambdaTerm where
