@@ -54,10 +54,8 @@ g(λx.gxx)λx.gxx
 
 #+END_SRC
 
-*** (\xy.x)y
-
 #+BEGIN_SRC
-
+$ lambda -e '(\xy.x)y'
 (λx.λy.x)y -- α -->
 (λx.λz.x)y -- β -->
 λz.y
