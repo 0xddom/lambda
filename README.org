@@ -6,17 +6,15 @@ A simple λ reducer pulled out in a all-nighter of Haskell. Takes a λ expressio
 
 - Fix the parser to need less parenthesis
 - A mechanism to add named functions
-- An standard library
+- A standard library
 
 ** Compile
 
 Install the Haskell toolchain, cabal and run:
 
 #+BEGIN_SRC
-
 cabal install parsec optparse-applicative
 cabal build
-
 #+END_SRC
 
 The executable is in =dist/build/lambda/lambda=
@@ -35,7 +33,6 @@ a
 $ lambda -e '\x.(m)x'
 λx.mx -- η -->
 m
-
 #+END_SRC
 
 #+BEGIN_SRC
@@ -43,7 +40,6 @@ echo '(\yx.(m)x)z' | lambda
 (λy.λx.mx)z -- β -->
 λx.mx -- η -->
 m
-
 #+END_SRC
 
 #+BEGIN_SRC
@@ -51,7 +47,6 @@ $ lambda -f test.lambda
 (λf.(λx.fxx)λx.fxx)g -- β -->
 (λx.gxx)λx.gxx -- β -->
 g(λx.gxx)λx.gxx
-
 #+END_SRC
 
 #+BEGIN_SRC
@@ -59,6 +54,5 @@ $ lambda -e '(\xy.x)y'
 (λx.λy.x)y -- α -->
 (λx.λz.x)y -- β -->
 λz.y
-
 #+END_SRC
 
