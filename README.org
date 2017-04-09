@@ -2,7 +2,7 @@
 
 A simple λ reducer pulled out in a all-nighter of Haskell. Takes a λ expression and reduces it to it's normal form.
 
-** TODO
+** TO DO
 
 - Fix the parser to need less parenthesis
 - A mechanism to add named functions
