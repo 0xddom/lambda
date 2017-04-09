@@ -54,3 +54,13 @@ g(λx.gxx)λx.gxx
 
 #+END_SRC
 
+*** (\xy.x)y
+
+#+BEGIN_SRC
+
+(λx.λy.x)y -- α -->
+(λx.λz.x)y -- β -->
+λz.y
+
+#+END_SRC
+
