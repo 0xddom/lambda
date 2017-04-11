@@ -1,6 +1,6 @@
-* λ reducer
+* λ-calculus reducer
 
-A simple λ reducer pulled out in a all-nighter of Haskell. Takes a λ expression and reduces it to it's normal form.
+A simple λ-calculus reducer pulled out in a all-nighter of Haskell. Takes a λ-calculus expression and reduces it to it's normal form.
 
 ** TO DO
 
