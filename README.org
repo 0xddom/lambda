@@ -6,7 +6,8 @@ A simple λ-calculus reducer pulled out in a all-nighter of Haskell. Takes a λ-
 
 - Fix the parser to need less parenthesis
 - A mechanism to add named functions
-- A standard library
+- An standard library
+- Interactive mode (probably)
 
 ** Compile
 
@@ -36,7 +37,7 @@ m
 #+END_SRC
 
 #+BEGIN_SRC
-echo '(\yx.(m)x)z' | lambda
+$ echo '(\yx.(m)x)z' | lambda
 (λy.λx.mx)z -- β -->
 λx.mx -- η -->
 m
