@@ -14,7 +14,7 @@ A simple λ-calculus reducer pulled out in a all-nighter of Haskell. Takes a λ-
 Install the Haskell toolchain, cabal and run:
 
 #+BEGIN_SRC
-cabal install parsec optparse-applicative
+cabal install
 cabal build
 #+END_SRC
 
