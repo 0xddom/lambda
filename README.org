@@ -9,6 +9,10 @@ A simple λ-calculus reducer pulled out in a all-nighter of Haskell. Takes a λ-
 - An standard library
 - Interactive mode (probably)
 
+** Windows
+
+I tried to compile and run the program in Windows. Compiles, but since the Windows CMD doesn't support Unicode chars it won't run. You are better off running *NIX as a CS student anyway...
+
 ** Compile
 
 Install the Haskell toolchain, cabal and run:
