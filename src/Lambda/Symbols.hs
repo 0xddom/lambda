@@ -1,4 +1,4 @@
-module Symbols(
+module Lambda.Symbols(
   Lambda(Lambda),
   Dot(Dot),
   LParen(LParen),
@@ -9,7 +9,7 @@ module Symbols(
   cstToAst
 ) where
 
-import Ast
+import Lambda.Ast
 
 data Lambda = Lambda
 data FreeVar = FreeVar Variable
@@ -30,19 +30,19 @@ data ParseTree =
 
 instance Show ParseTree where
   show (AbstrExpr vars _body) =
-    "(λ (" ++ foldr (++) "" vars ++ ") " ++ show _body ++ ")"
+    "(λ (" ++ concat vars ++ ") " ++ show _body ++ ")"
   show (FreeVarExpr (FreeVar x)) = x
   show (ApplExpr m n) = "(" ++ show m ++ " " ++ show n ++ ")"
   show (NumberExpr n) = show n
 
 abstrExpr :: [Variable] -> ParseTree -> ParseTree
-abstrExpr v _body = AbstrExpr v _body
+abstrExpr = AbstrExpr
 
 buildChurchNum :: LambdaTerm -> LambdaTerm -> LambdaTerm
-buildChurchNum _ acc = appl (free "f") acc
+buildChurchNum _ = appl (free "f")
 
 infiniteFreeVars :: String -> [LambdaTerm]
-infiniteFreeVars name = (free name):infiniteFreeVars name
+infiniteFreeVars name = free name:infiniteFreeVars name
 
 buildAbstraction :: LambdaTerm -> LambdaTerm -> LambdaTerm
 buildAbstraction (FreeVariable x) acc = abst x acc
@@ -50,7 +50,7 @@ buildAbstraction m _ = m
 
 cstToAst :: ParseTree -> LambdaTerm
 cstToAst (FreeVarExpr (FreeVar x)) = free x
-cstToAst (AbstrExpr x m) = foldr buildAbstraction (cstToAst m) $ map free x 
+cstToAst (AbstrExpr x m) = foldr (buildAbstraction . free) (cstToAst m) x
 cstToAst (ApplExpr m n) = appl (cstToAst m) (cstToAst n)
 cstToAst (NumberExpr n) =
   abst "f" $ abst "x"

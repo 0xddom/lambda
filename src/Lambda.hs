@@ -1,9 +1,9 @@
 module Main(main) where
 
-import Eval
-import Parser
+import Lambda.Eval
+import Lambda.Parser
 import System.IO
-import Args as A
+import Lambda.Args as A
 import Options.Applicative
 
 type Content = Either (String -> IO Handle) String

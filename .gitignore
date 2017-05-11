@@ -2,3 +2,4 @@ dist
 lambda
 .DS_Store
 .#*
+.cabal-sandbox

@@ -1,22 +1,22 @@
-module Lambda(
+module Lambda.Reducer(
   normalFormP,
   reduceLambdaTerm,
   canEtaReduce
 ) where
 
 import Data.List as L
-import Ast
-import Utils
+import Lambda.Ast
+import Lambda.Utils
 
 bindVars :: LambdaTerm -> [Variable]
 bindVars (FreeVariable _) = []
-bindVars (Abstraction x m) = x:(bindVars m)
-bindVars (Application m n) = (bindVars m) ++ (bindVars n)
+bindVars (Abstraction x m) = x:bindVars m
+bindVars (Application m n) = bindVars m ++ bindVars n
 
 freeVars :: LambdaTerm -> [Variable]
 freeVars (FreeVariable x) = [x]
 freeVars (Abstraction x m) = filter (/= x) (freeVars m)
-freeVars (Application m n) = removeDups $ (freeVars m) ++ (freeVars n)
+freeVars (Application m n) = removeDups $ freeVars m ++ freeVars n
 
 consistent :: LambdaTerm -> LambdaTerm -> Bool
 consistent m n = (== []) $ bindVars m `L.intersect` freeVars n
@@ -52,8 +52,8 @@ betaReduction m = m
 
 etaReduction :: LambdaTerm -> LambdaTerm
 etaReduction (Abstraction x (Application m (FreeVariable y)))
-  | x == y && not (x `elem` (freeVars m)) = m
-  | otherwise = (Abstraction x (Application m (FreeVariable y)))
+  | x == y && notElem x (freeVars m) = m
+  | otherwise = Abstraction x (Application m (FreeVariable y))
 etaReduction m = m
 
 normalFormP :: LambdaTerm -> Bool
@@ -76,7 +76,7 @@ canBetaReduce _ = False
 
 canEtaReduce :: LambdaTerm -> Bool
 canEtaReduce (Abstraction x (Application m (FreeVariable y))) =
-  x == y && not (x `elem` (freeVars m))
+  x == y && notElem x (freeVars m)
 canEtaReduce _ = False
 
 reduceLambdaTerm :: LambdaTerm -> (LambdaTerm, Reduction)

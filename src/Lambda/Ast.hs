@@ -1,4 +1,4 @@
-module Ast (
+module Lambda.Ast (
   LambdaTerm(Application,Abstraction,FreeVariable),
   Variable,
   Reduction(Alpha,Beta,Eta,None),
@@ -44,13 +44,13 @@ instance Eq LambdaTerm where
   _ == _ = False
 
 appl :: LambdaTerm -> LambdaTerm -> LambdaTerm
-appl m n = Application m n
+appl = Application
 
 abst :: Variable -> LambdaTerm -> LambdaTerm
-abst x m = Abstraction x m
+abst = Abstraction
 
 free :: Variable -> LambdaTerm
-free x = FreeVariable x
+free = FreeVariable
 
 isAbst :: LambdaTerm -> Bool
 isAbst (Abstraction _ _) = True

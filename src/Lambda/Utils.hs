@@ -1,4 +1,4 @@
-module Utils (
+module Lambda.Utils (
   removeDups,
   newNameForVar,
   joinBySpace
@@ -21,7 +21,7 @@ nextValue :: String -> String
 nextValue [] = "a"
 nextValue xs
   | stringWillOverflowZ $ last xs = nextValue (init xs) ++ "a"
-  | otherwise = let next = chr ((+1) . ord $ last xs) in (init xs) ++ [next]
+  | otherwise = let next = chr ((+1) . ord $ last xs) in init xs ++ [next]
 
 newNameForVar :: String -> [String] -> String
 newNameForVar _ fv = nextValue $ foldr max "" fv 

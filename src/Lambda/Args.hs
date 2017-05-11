@@ -1,4 +1,4 @@
-module Args(
+module Lambda.Args(
   Arguments(Arguments,filePath,expression),
   arguments) where
 
@@ -12,12 +12,12 @@ data Arguments  = Arguments {
 
 argsParse :: Parser Arguments
 argsParse = Arguments
-  <$> ( optional $ strOption
+  <$>  optional (strOption
        ( metavar "EXPRESSION"
        <> long "expr"
        <> short 'e'
        <> help "A λ expression" ))
-  <*> ( optional $ strOption
+  <*> optional (strOption
        ( metavar "FILE"
        <> long "file"
        <> short 'f'

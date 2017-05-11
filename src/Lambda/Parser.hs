@@ -1,21 +1,21 @@
-module Parser (
+module Lambda.Parser (
   parseExpr
 ) where
 
 import Text.Parsec
 import Text.Parsec.String
-import Symbols
-import Ast
+import Lambda.Symbols
+import Lambda.Ast
 
 lambda :: Parser Lambda
 lambda = do
   _ <- char 'λ' <|> char '\\'
-  return $ Lambda
+  return Lambda
 
 dot :: Parser Dot
 dot = do
   _ <- char '.'
-  return $ Dot
+  return Dot
 
 var :: Parser Variable
 var = do
@@ -26,12 +26,12 @@ var = do
 lparen :: Parser LParen
 lparen = do
   _ <- char '('
-  return $ LParen
+  return LParen
 
 rparen :: Parser RParen
 rparen = do
   _ <- char ')'
-  return $ RParen
+  return RParen
 
 abstractionExpr :: Parser ParseTree
 abstractionExpr = do
@@ -67,8 +67,8 @@ wrappedExpr = do
 nonApplicativeExpr :: Parser ParseTree
 nonApplicativeExpr =
    try abstractionExpr
-   <|> (try freeVarExpr)
-   <|> (try numberExpr)
+   <|> try freeVarExpr
+   <|> try numberExpr
    <|> wrappedExpr
 
 lambdaProg :: Parser ParseTree
@@ -77,5 +77,4 @@ lambdaProg =
   <|> nonApplicativeExpr
 
 parseExpr :: String -> String -> IO (Either ParseError ParseTree)
-parseExpr source expr = do
-  return $ parse lambdaProg source expr
+parseExpr source expr = return $ parse lambdaProg source expr
