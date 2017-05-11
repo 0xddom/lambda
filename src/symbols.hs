@@ -17,7 +17,7 @@ data Dot = Dot
 data LParen = LParen
 data RParen = RParen
 
-instance Show Lambda where show Lambda = "λ"
+instance Show Lambda where show Lambda = "lambda"
 instance Show Dot where show Dot = "."
 instance Show LParen where show LParen = "("
 instance Show RParen where show RParen = ")"
