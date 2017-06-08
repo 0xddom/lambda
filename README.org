@@ -8,6 +8,7 @@ A simple λ-calculus reducer pulled out in a all-nighter of Haskell. Takes a λ-
 - A mechanism to add named functions
 - An standard library
 - Interactive mode (probably)
+- Use De Bruijin indices to simplify the interpreter
 
 ** Windows
 
